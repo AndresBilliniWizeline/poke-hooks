@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-function usePokeApi(url, dependencies) {
+function usePokeApi(url) {
   const [pokemonList, setPokemonList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch(url);
@@ -20,10 +20,11 @@ function usePokeApi(url, dependencies) {
       console.log(error);
       setIsLoading(false);
     }
-  };
+  }, [url]);
+  
   useEffect(() => {
     fetchData();
-  }, dependencies);
+  }, [fetchData]);
   return [isLoading, pokemonList];
 }
 

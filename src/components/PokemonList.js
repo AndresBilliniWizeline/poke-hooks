@@ -5,7 +5,7 @@ import "./PokemonList.css";
 
 const PokemonList = (props) => {
   const url = "https://pokeapi.co/api/v2/pokemon?limit=5&offset=130";
-  const [isLoading, pokemonList] = usePokeApi(url, []);
+  const [isLoading, pokemonList] = usePokeApi(url);
 
   let content = <p>Loading pokemon list...</p>;
 

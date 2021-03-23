@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Summary from "./Summary";
 
@@ -6,16 +6,9 @@ const Detail = (props) => {
   const [loadedPokemon, setLoadedPokemon] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-    return () => {
-      console.log("Too soon...");
-    };
-  }, [props.selectedPokemon]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     console.log(
-      "Sending Http request for new pokemon with name " + props.selectedPokemon
+      `Sending Http request for new pokemon with name ${props.selectedPokemon}`
     );
     setIsLoading(true);
     try {
@@ -37,7 +30,16 @@ const Detail = (props) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [props.selectedPokemon]);
+
+  useEffect(() => {
+    fetchData();
+    return () => {
+      console.log("Too soon...");
+    };
+  }, [fetchData, props.selectedPokemon]);
+
+  
 
   let content = <p>Loading Detail...</p>;
 
